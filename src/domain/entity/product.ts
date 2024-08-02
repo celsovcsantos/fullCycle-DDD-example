@@ -43,4 +43,12 @@ export default class Product {
 		this._price = price;
 		this.validate();
 	}
+
+	toJSON() {
+		return {
+			id: this._id,
+			name: this._name,
+			price: this._price,
+		};
+	}
 }
