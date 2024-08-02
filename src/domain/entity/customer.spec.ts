@@ -32,7 +32,9 @@ describe("Customer Unit Tests", () => {
 
 	test("Should activate customer", () => {
 		const customer = new Customer("123", "John Doe");
-		customer.Address = new Address("Main St", 100, "12345", "Springfield");
+		customer.changeAddress(
+			new Address("Main St", 100, "12345", "Springfield")
+		);
 		customer.activate();
 		expect(customer.isActive()).toBeTruthy();
 	});
@@ -64,7 +66,9 @@ describe("Customer Unit Tests", () => {
 	test("Should throw error qhen activate customer with street is empty", () => {
 		expect(() => {
 			let customer = new Customer("123", "John Doe");
-			customer.Address = new Address("", 100, "12345", "Springfield");
+			customer.changeAddress(
+				new Address("", 100, "12345", "Springfield")
+			);
 			customer.activate();
 		}).toThrow("Street is required");
 	});

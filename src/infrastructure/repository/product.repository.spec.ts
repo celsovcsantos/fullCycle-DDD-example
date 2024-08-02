@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize-typescript";
 import ProductModel from "../db/sequelize/model/product.model";
 import Product from "../../domain/entity/product";
 import ProductRepository from "./product.repository";
+import { v4 as uuid } from "uuid";
 
 describe("Product repository tests", () => {
 	let sequelize: Sequelize;
@@ -25,15 +26,16 @@ describe("Product repository tests", () => {
 
 	test("should create a product", async () => {
 		const productRepository = new ProductRepository();
-		const product = new Product("1", "Product 1", 10);
+		const id = uuid();
+		const product = new Product(id, "Product 1", 10);
 		await productRepository.create(product);
 
 		const productModel = await ProductModel.findOne({
-			where: { id: product.id },
+			where: { id },
 		});
 
 		expect(productModel.toJSON()).toStrictEqual({
-			id: "1",
+			id,
 			name: "Product 1",
 			price: 10,
 		});
@@ -41,14 +43,15 @@ describe("Product repository tests", () => {
 
 	test("should update a product", async () => {
 		const productRepository = new ProductRepository();
-		const product = new Product("1", "Product 1", 10);
+		const id = uuid();
+		const product = new Product(id, "Product 1", 10);
 
 		await productRepository.create(product);
 		const productModel = await ProductModel.findOne({
-			where: { id: product.id },
+			where: { id },
 		});
 		expect(productModel.toJSON()).toStrictEqual({
-			id: "1",
+			id,
 			name: "Product 1",
 			price: 10,
 		});
@@ -58,10 +61,10 @@ describe("Product repository tests", () => {
 
 		await productRepository.update(product);
 		const updatedProductModel = await ProductModel.findOne({
-			where: { id: product.id },
+			where: { id },
 		});
 		expect(updatedProductModel.toJSON()).toStrictEqual({
-			id: "1",
+			id,
 			name: "Product 2",
 			price: 20,
 		});
@@ -69,12 +72,11 @@ describe("Product repository tests", () => {
 
 	test("should find a product", async () => {
 		const productRepository = new ProductRepository();
-		const product = new Product("1", "Product 1", 10);
+		const id = uuid();
+		const product = new Product(id, "Product 1", 10);
 		await productRepository.create(product);
 
-		const productModel = await ProductModel.findOne({
-			where: { id: product.id },
-		});
+		const productModel = await ProductModel.findOne({ where: { id } });
 
 		const foundProduct = await productRepository.find(productModel.id);
 		expect(foundProduct.toJSON()).toStrictEqual(productModel.toJSON());
@@ -91,5 +93,19 @@ describe("Product repository tests", () => {
 		expect(products.length).toBe(2);
 		expect(products[0].toJSON()).toStrictEqual(product1.toJSON());
 		expect(products[1].toJSON()).toStrictEqual(product2.toJSON());
+	});
+
+	test("should throw an error when product is not found", async () => {
+		const productRepository = new ProductRepository();
+		const id = uuid();
+		const product = new Product(id, "Product 1", 10);
+		await productRepository.create(product);
+
+		const productModel = await ProductModel.findOne({ where: { id } });
+
+		const idNotFound = "1";
+		await expect(productRepository.find(idNotFound)).rejects.toThrow(
+			"Product not found"
+		);
 	});
 });

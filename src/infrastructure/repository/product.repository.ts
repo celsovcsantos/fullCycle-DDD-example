@@ -22,6 +22,9 @@ export default class ProductRepository
 		const productModel = await ProductModel.findOne({
 			where: { id },
 		});
+		if (!productModel) {
+			throw new Error("Product not found");
+		}
 		return new Product(
 			productModel.id,
 			productModel.name,

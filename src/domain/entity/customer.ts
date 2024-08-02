@@ -29,6 +29,10 @@ export default class Customer {
 		return this._rewardPoints;
 	}
 
+	get Address(): Address {
+		return this._address;
+	}
+
 	validate() {
 		if (this._id.length === 0) {
 			throw new Error("Id is required");
@@ -61,7 +65,18 @@ export default class Customer {
 	addRewardPoints(points: number) {
 		this._rewardPoints += points;
 	}
-	set Address(address: Address) {
+
+	changeAddress(address: Address) {
 		this._address = address;
+	}
+
+	toJSON() {
+		return {
+			id: this._id,
+			name: this._name,
+			address: this.Address.toJSON(),
+			active: this._active,
+			rewardPoints: this._rewardPoints,
+		};
 	}
 }
