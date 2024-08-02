@@ -43,6 +43,17 @@ describe("Customer Unit Tests", () => {
 		expect(customer.isActive()).toBeFalsy();
 	});
 
+	test("Should add reward points", () => {
+		const customer = new Customer("123", "John Doe");
+		expect(customer.rewardPoints).toBe(0);
+
+		customer.addRewardPoints(10);
+		expect(customer.rewardPoints).toBe(10);
+
+		customer.addRewardPoints(10);
+		expect(customer.rewardPoints).toBe(20);
+	});
+
 	test("Should throw error when activate customer with address is undefined", () => {
 		expect(() => {
 			let customer = new Customer("123", "John Doe");
