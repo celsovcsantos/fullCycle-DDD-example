@@ -26,6 +26,11 @@ export default class Order {
 		return this._items;
 	}
 
+	changeCustomerId(customerId: string) {
+		this._customerId = customerId;
+		this.validate();
+	}
+
 	validate() {
 		if (!this._id || this._id === "") {
 			throw new Error("Id is required");
