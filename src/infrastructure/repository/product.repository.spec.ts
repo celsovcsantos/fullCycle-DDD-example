@@ -1,8 +1,11 @@
 import { Sequelize } from "sequelize-typescript";
-import ProductModel from "../db/sequelize/model/product.model";
-import Product from "../../domain/entity/product";
-import ProductRepository from "./product.repository";
 import { v4 as uuid } from "uuid";
+import Product from "../../domain/entity/product";
+import OrderItemModel from "../db/sequelize/model/orderItem.model";
+import ProductModel from "../db/sequelize/model/product.model";
+import ProductRepository from "./product.repository";
+import OrderModel from "../db/sequelize/model/order.model";
+import CustomerModel from "../db/sequelize/model/customer.model";
 
 describe("Product repository tests", () => {
 	let sequelize: Sequelize;
@@ -16,7 +19,12 @@ describe("Product repository tests", () => {
 		});
 
 		// Add the models to the Sequelize instance
-		sequelize.addModels([ProductModel]);
+		sequelize.addModels([
+			CustomerModel,
+			OrderModel,
+			OrderItemModel,
+			ProductModel,
+		]);
 		await sequelize.sync();
 	});
 

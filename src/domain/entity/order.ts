@@ -14,6 +14,18 @@ export default class Order {
 		this._total = this.total();
 	}
 
+	get id(): string {
+		return this._id;
+	}
+
+	get customerId(): string {
+		return this._customerId;
+	}
+
+	get items(): OrderItem[] {
+		return this._items;
+	}
+
 	validate() {
 		if (!this._id || this._id === "") {
 			throw new Error("Id is required");

@@ -20,6 +20,30 @@ export default class OrderItem {
 		this.validate();
 	}
 
+	get id(): string {
+		return this._id;
+	}
+
+	get name(): string {
+		return this._name;
+	}
+
+	get price(): number {
+		return this._price;
+	}
+
+	get quantity(): number {
+		return this._quantity;
+	}
+
+	get productId(): string {
+		return this._productId;
+	}
+
+	orderItemTotal(): number {
+		return this._price * this._quantity;
+	}
+
 	protected validate() {
 		if (this._id.length === 0) {
 			throw new Error("Id is required");
@@ -36,17 +60,5 @@ export default class OrderItem {
 		if (this._quantity <= 0) {
 			throw new Error("Quantity is required");
 		}
-	}
-
-	get price(): number {
-		return this._price;
-	}
-
-	get quantity(): number {
-		return this._quantity;
-	}
-
-	orderItemTotal(): number {
-		return this._price * this._quantity;
 	}
 }
