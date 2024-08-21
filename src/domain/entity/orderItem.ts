@@ -44,7 +44,7 @@ export default class OrderItem {
 		return this._price * this._quantity;
 	}
 
-	set quantity(quantity: number) {
+	changeQuantity(quantity: number) {
 		this._quantity = quantity;
 		this.validate();
 	}

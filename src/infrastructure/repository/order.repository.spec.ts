@@ -129,7 +129,7 @@ describe("Order repository tests", () => {
 		});
 
 		order.changeCustomerId("456");
-		order.items[0].quantity = 3;
+		order.items[0].changeQuantity(3);
 
 		await expect(customerRepository.find(order.customerId)).rejects.toThrow(
 			"Customer not found"
@@ -187,7 +187,7 @@ describe("Order repository tests", () => {
 		await customerRepository.create(customer2);
 
 		order.changeCustomerId("456");
-		order.items[0].quantity = 3;
+		order.items[0].changeQuantity(3);
 		await orderRepository.update(order);
 
 		const updatedOrderModel = await OrderModel.findOne({
