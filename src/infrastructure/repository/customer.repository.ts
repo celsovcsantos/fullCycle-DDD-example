@@ -1,10 +1,10 @@
 import Address from "../../domain/entity/address";
 import Customer from "../../domain/entity/customer";
-import IRepositoryInterface from "../../domain/repository/repositoryInterface";
+import ICustomerRepositoryInterface from "../../domain/repository/customerRepository.interface";
 import CustomerModel from "../db/sequelize/model/customer.model";
 
 export default class CustomerRepository
-	implements IRepositoryInterface<Customer>
+	implements ICustomerRepositoryInterface
 {
 	async create(entity: Customer): Promise<void> {
 		await CustomerModel.create({
