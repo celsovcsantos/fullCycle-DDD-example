@@ -24,14 +24,6 @@ export default class OrderRepository implements IOrderRepositoryInterface {
 	}
 
 	async update(entity: Order): Promise<void> {
-		// try {
-		// 	const customer = await CustomerModel.findOne({
-		// 		where: { id: entity.customerId },
-		// 	});
-		// } catch (error) {
-		// 	throw new Error("Customer not found");
-		// }
-
 		try {
 			await OrderModel.update(
 				{
