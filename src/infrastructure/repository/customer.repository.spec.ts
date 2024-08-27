@@ -4,6 +4,11 @@ import CustomerRepository from "./customer.repository";
 import Address from "../../domain/entity/address";
 import Customer from "../../domain/entity/customer";
 import { v4 as uuid } from "uuid";
+import EventDispatcher from "../../domain/event/@shared/eventDispatcher";
+import SendMsgConsoleWhenCustomerIsCreatedHandler from "../../domain/event/customer/handler/sendMsgConsoleWhenCustomerIsCreated.handler";
+import CustomerCreatedEvent from "../../domain/event/customer/customerCreated.event";
+import SendMsgConsoleWhenCustomerAddressIsUpdatedHandler from "../../domain/event/customer/handler/sendMsgConsoleWhenCustomerAddressIsUpdated.handler";
+import CustomerAddressUpdatedEvent from "../../domain/event/customer/customerAddressUpdated.event";
 
 describe("Customer repository tests", () => {
 	let sequelize: Sequelize;
@@ -47,6 +52,31 @@ describe("Customer repository tests", () => {
 			active: customer.active,
 			rewardPoints: customer.rewardPoints,
 		});
+
+		const eventDispatcher = new EventDispatcher();
+		const eventHandler = new SendMsgConsoleWhenCustomerIsCreatedHandler();
+		const spyEventHandler = jest.spyOn(eventHandler, "handle");
+
+		eventDispatcher.register("CustomerCreatedEvent", eventHandler);
+
+		expect(
+			eventDispatcher.getEventHandlers["CustomerCreatedEvent"][0]
+		).toMatchObject(eventHandler);
+
+		const customerCreatedEvent = new CustomerCreatedEvent({
+			id,
+			name: customer.name,
+			street: customer.Address.street,
+			number: customer.Address.number,
+			zipcode: customer.Address.zip,
+			city: customer.Address.city,
+			active: customer.active,
+			rewardPoints: customer.rewardPoints,
+		});
+
+		// Quando o notify for executado o SendMsgConsoleWhenCustomerIsCreatedHandler.handle() deve ser chamado
+		eventDispatcher.notify(customerCreatedEvent);
+		expect(spyEventHandler).toHaveBeenCalled();
 	});
 
 	test("should update a customer", async () => {
@@ -88,6 +118,74 @@ describe("Customer repository tests", () => {
 			active: false,
 			rewardPoints: 10,
 		});
+	});
+
+	test("should update a customer address", async () => {
+		const customerRepository = new CustomerRepository();
+		const id = uuid();
+		const customer = new Customer(id, "Customer 1");
+		customer.changeAddress(new Address("Street 1", 10, "1234", "City 1"));
+		customer.activate();
+		await customerRepository.create(customer);
+
+		const customerModel = await CustomerModel.findOne({
+			where: { id: customer.id },
+		});
+		expect(customerModel.toJSON()).toStrictEqual({
+			id,
+			name: customer.name,
+			street: customer.Address.street,
+			number: customer.Address.number,
+			zipcode: customer.Address.zip,
+			city: customer.Address.city,
+			active: customer.active,
+			rewardPoints: 0,
+		});
+
+		customer.deactivate();
+		customer.addRewardPoints(10);
+		customer.changeAddress(new Address("Street 2", 20, "5678", "City 2"));
+
+		await customerRepository.update(customer);
+		const updatedCustomerModel = await CustomerModel.findOne({
+			where: { id: customer.id },
+		});
+		expect(updatedCustomerModel.toJSON()).toStrictEqual({
+			id: customer.id,
+			name: customer.name,
+			street: "Street 2",
+			number: 20,
+			zipcode: "5678",
+			city: "City 2",
+			active: false,
+			rewardPoints: 10,
+		});
+
+		const eventDispatcher = new EventDispatcher();
+		const eventHandler =
+			new SendMsgConsoleWhenCustomerAddressIsUpdatedHandler();
+		const spyEventHandler = jest.spyOn(eventHandler, "handle");
+
+		eventDispatcher.register("CustomerAddressUpdatedEvent", eventHandler);
+
+		expect(
+			eventDispatcher.getEventHandlers["CustomerAddressUpdatedEvent"][0]
+		).toMatchObject(eventHandler);
+
+		const customerAddressUpdatedEvent = new CustomerAddressUpdatedEvent({
+			id,
+			name: updatedCustomerModel.name,
+			street: updatedCustomerModel.street,
+			number: updatedCustomerModel.number,
+			zipcode: updatedCustomerModel.zipcode,
+			city: updatedCustomerModel.city,
+			active: updatedCustomerModel.active,
+			rewardPoints: updatedCustomerModel.rewardPoints,
+		});
+
+		// Quando o notify for executado o SendMsgConsoleWhenCustomerIsCreatedHandler.handle() deve ser chamado
+		eventDispatcher.notify(customerAddressUpdatedEvent);
+		expect(spyEventHandler).toHaveBeenCalled();
 	});
 
 	test("should find a customer", async () => {
