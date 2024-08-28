@@ -1,4 +1,4 @@
-import IEventHandlerInterface from "../../@shared/eventHandler.interface";
+import IEventHandlerInterface from "../../../@shared/event/eventHandler.interface";
 import CustomerAddressUpdatedEvent from "../customerAddressUpdated.event";
 
 export default class SendMsgConsoleWhenCustomerAddressIsUpdatedHandler

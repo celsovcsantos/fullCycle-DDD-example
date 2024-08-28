@@ -1,11 +1,11 @@
 import { Sequelize } from "sequelize-typescript";
 import { v4 as uuid } from "uuid";
-import Product from "../../domain/entity/product";
 import OrderItemModel from "../db/sequelize/model/orderItem.model";
 import ProductModel from "../db/sequelize/model/product.model";
 import ProductRepository from "./product.repository";
 import OrderModel from "../db/sequelize/model/order.model";
 import CustomerModel from "../db/sequelize/model/customer.model";
+import Product from "../../domain/product/entity/product";
 
 describe("Product repository tests", () => {
 	let sequelize: Sequelize;

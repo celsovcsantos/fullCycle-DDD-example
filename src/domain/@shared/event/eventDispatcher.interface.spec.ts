@@ -1,8 +1,5 @@
-import CustomerCreatedEvent from "../customer/customerCreated.event";
-import SendMsgConsoleWhenCustomerAddressIsUpdatedHandler from "../customer/handler/sendMsgConsoleWhenCustomerAddressIsUpdated.handler";
-import SendMsgConsoleWhenCustomerIsCreatedHandler from "../customer/handler/sendMsgConsoleWhenCustomerIsCreated.handler";
-import SendEmailWhenProductIsCreatedHandler from "../product/handler/sendEmailWhenProductIsCreated.handler";
-import ProductCreatedEvent from "../product/productCreated.event";
+import SendEmailWhenProductIsCreatedHandler from "../../product/event/handler/sendEmailWhenProductIsCreated.handler";
+import ProductCreatedEvent from "../../product/event/productCreated.event";
 import IEventInterface from "./event.interface";
 import EventDispatcher from "./eventDispatcher";
 
