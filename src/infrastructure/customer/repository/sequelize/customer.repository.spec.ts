@@ -1,14 +1,14 @@
 import { Sequelize } from "sequelize-typescript";
-import CustomerModel from "../db/sequelize/model/customer.model";
 import CustomerRepository from "./customer.repository";
-import Address from "../../domain/customer/valueObject/address";
-import Customer from "../../domain/customer/entity/customer";
 import { v4 as uuid } from "uuid";
-import EventDispatcher from "../../domain/@shared/event/eventDispatcher";
-import SendMsgConsoleWhenCustomerIsCreatedHandler from "../../domain/customer/event/handler/sendMsgConsoleWhenCustomerIsCreated.handler";
-import CustomerCreatedEvent from "../../domain/customer/event/customerCreated.event";
-import SendMsgConsoleWhenCustomerAddressIsUpdatedHandler from "../../domain/customer/event/handler/sendMsgConsoleWhenCustomerAddressIsUpdated.handler";
-import CustomerAddressUpdatedEvent from "../../domain/customer/event/customerAddressUpdated.event";
+import CustomerModel from "./customer.model";
+import Customer from "../../../../domain/customer/entity/customer";
+import Address from "../../../../domain/customer/valueObject/address";
+import EventDispatcher from "../../../../domain/@shared/event/eventDispatcher";
+import SendMsgConsoleWhenCustomerIsCreatedHandler from "../../../../domain/customer/event/handler/sendMsgConsoleWhenCustomerIsCreated.handler";
+import CustomerCreatedEvent from "../../../../domain/customer/event/customerCreated.event";
+import SendMsgConsoleWhenCustomerAddressIsUpdatedHandler from "../../../../domain/customer/event/handler/sendMsgConsoleWhenCustomerAddressIsUpdated.handler";
+import CustomerAddressUpdatedEvent from "../../../../domain/customer/event/customerAddressUpdated.event";
 
 describe("Customer repository tests", () => {
 	let sequelize: Sequelize;
