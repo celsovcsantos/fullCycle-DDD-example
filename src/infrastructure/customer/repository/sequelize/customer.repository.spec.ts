@@ -45,10 +45,10 @@ describe("Customer repository tests", () => {
 		expect(customerModel.toJSON()).toStrictEqual({
 			id,
 			name: customer.name,
-			street: customer.Address.street,
-			number: customer.Address.number,
-			zipcode: customer.Address.zip,
-			city: customer.Address.city,
+			street: customer.address.street,
+			number: customer.address.number,
+			zipcode: customer.address.zip,
+			city: customer.address.city,
 			active: customer.active,
 			rewardPoints: customer.rewardPoints,
 		});
@@ -66,10 +66,10 @@ describe("Customer repository tests", () => {
 		const customerCreatedEvent = new CustomerCreatedEvent({
 			id,
 			name: customer.name,
-			street: customer.Address.street,
-			number: customer.Address.number,
-			zipcode: customer.Address.zip,
-			city: customer.Address.city,
+			street: customer.address.street,
+			number: customer.address.number,
+			zipcode: customer.address.zip,
+			city: customer.address.city,
 			active: customer.active,
 			rewardPoints: customer.rewardPoints,
 		});
@@ -93,10 +93,10 @@ describe("Customer repository tests", () => {
 		expect(customerModel.toJSON()).toStrictEqual({
 			id,
 			name: customer.name,
-			street: customer.Address.street,
-			number: customer.Address.number,
-			zipcode: customer.Address.zip,
-			city: customer.Address.city,
+			street: customer.address.street,
+			number: customer.address.number,
+			zipcode: customer.address.zip,
+			city: customer.address.city,
 			active: customer.active,
 			rewardPoints: 0,
 		});
@@ -111,10 +111,10 @@ describe("Customer repository tests", () => {
 		expect(updatedCustomerModel.toJSON()).toStrictEqual({
 			id: customer.id,
 			name: customer.name,
-			street: customer.Address.street,
-			number: customer.Address.number,
-			zipcode: customer.Address.zip,
-			city: customer.Address.city,
+			street: customer.address.street,
+			number: customer.address.number,
+			zipcode: customer.address.zip,
+			city: customer.address.city,
 			active: false,
 			rewardPoints: 10,
 		});
@@ -134,10 +134,10 @@ describe("Customer repository tests", () => {
 		expect(customerModel.toJSON()).toStrictEqual({
 			id,
 			name: customer.name,
-			street: customer.Address.street,
-			number: customer.Address.number,
-			zipcode: customer.Address.zip,
-			city: customer.Address.city,
+			street: customer.address.street,
+			number: customer.address.number,
+			zipcode: customer.address.zip,
+			city: customer.address.city,
 			active: customer.active,
 			rewardPoints: 0,
 		});

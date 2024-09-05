@@ -10,10 +10,10 @@ export default class CustomerRepository
 		await CustomerModel.create({
 			id: entity.id,
 			name: entity.name,
-			street: entity.Address.street,
-			number: entity.Address.number,
-			zipcode: entity.Address.zip,
-			city: entity.Address.city,
+			street: entity.address.street,
+			number: entity.address.number,
+			zipcode: entity.address.zip,
+			city: entity.address.city,
 			active: entity.active,
 			rewardPoints: entity.rewardPoints,
 		});
@@ -23,10 +23,10 @@ export default class CustomerRepository
 		await CustomerModel.update(
 			{
 				name: entity.name,
-				street: entity.Address.street,
-				number: entity.Address.number,
-				zipcode: entity.Address.zip,
-				city: entity.Address.city,
+				street: entity.address.street,
+				number: entity.address.number,
+				zipcode: entity.address.zip,
+				city: entity.address.city,
 				active: entity.active,
 				rewardPoints: entity.rewardPoints,
 			},

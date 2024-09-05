@@ -29,7 +29,7 @@ export default class Customer {
 		return this._rewardPoints;
 	}
 
-	get Address(): Address {
+	get address(): Address {
 		return this._address;
 	}
 
@@ -74,7 +74,7 @@ export default class Customer {
 		return {
 			id: this._id,
 			name: this._name,
-			address: this.Address.toJSON(),
+			address: this.address.toJSON(),
 			active: this._active,
 			rewardPoints: this._rewardPoints,
 		};
