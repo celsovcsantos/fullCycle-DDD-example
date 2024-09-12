@@ -183,7 +183,7 @@ describe("Customer repository tests", () => {
 			rewardPoints: updatedCustomerModel.rewardPoints,
 		});
 
-		// Quando o notify for executado o SendMsgConsoleWhenCustomerIsCreatedHandler.handle() deve ser chamado
+		// Quando o notify for executado o SendMsgConsoleWhenCustomerAddressIsUpdatedHandler.handle() deve ser chamado
 		eventDispatcher.notify(customerAddressUpdatedEvent);
 		expect(spyEventHandler).toHaveBeenCalled();
 	});
