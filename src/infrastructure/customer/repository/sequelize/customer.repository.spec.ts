@@ -9,6 +9,7 @@ import SendMsgConsoleWhenCustomerIsCreatedHandler from "../../../../domain/custo
 import CustomerCreatedEvent from "../../../../domain/customer/event/customerCreated.event";
 import SendMsgConsoleWhenCustomerAddressIsUpdatedHandler from "../../../../domain/customer/event/handler/sendMsgConsoleWhenCustomerAddressIsUpdated.handler";
 import CustomerAddressUpdatedEvent from "../../../../domain/customer/event/customerAddressUpdated.event";
+import SendMsgConsoleWhenCustomerIsCreatedHandler2 from "../../../../domain/customer/event/handler/sendMsgConsoleWhenCustomerIsCreated2.handler";
 
 describe("Customer repository tests", () => {
 	let sequelize: Sequelize;
@@ -56,12 +57,19 @@ describe("Customer repository tests", () => {
 		const eventDispatcher = new EventDispatcher();
 		const eventHandler = new SendMsgConsoleWhenCustomerIsCreatedHandler();
 		const spyEventHandler = jest.spyOn(eventHandler, "handle");
+		const eventHandler2 = new SendMsgConsoleWhenCustomerIsCreatedHandler2();
+		const spyEventHandler2 = jest.spyOn(eventHandler2, "handle");
 
 		eventDispatcher.register("CustomerCreatedEvent", eventHandler);
+		eventDispatcher.register("CustomerCreatedEvent", eventHandler2);
 
 		expect(
 			eventDispatcher.getEventHandlers["CustomerCreatedEvent"][0]
 		).toMatchObject(eventHandler);
+
+		// expect(
+		// 	eventDispatcher.getEventHandlers["CustomerCreatedEvent"][0]
+		// ).toMatchObject(eventHandler2);
 
 		const customerCreatedEvent = new CustomerCreatedEvent({
 			id,
@@ -77,6 +85,9 @@ describe("Customer repository tests", () => {
 		// Quando o notify for executado o SendMsgConsoleWhenCustomerIsCreatedHandler.handle() deve ser chamado
 		eventDispatcher.notify(customerCreatedEvent);
 		expect(spyEventHandler).toHaveBeenCalled();
+
+		eventDispatcher.notify(customerCreatedEvent);
+		expect(spyEventHandler2).toHaveBeenCalled();
 	});
 
 	test("should update a customer", async () => {
